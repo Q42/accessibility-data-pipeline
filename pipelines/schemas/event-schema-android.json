@@ -1,0 +1,236 @@
+[
+  {
+    "name": "doc_id",
+    "type": "STRING"
+  },
+  {
+    "fields": [
+      {
+        "name": "stats_timestamp",
+        "type": "STRING"
+      },
+      {
+        "name": "stats_version",
+        "type": "STRING"
+      },
+      {
+        "name": "stats_library_version",
+        "type": "STRING"
+      },
+      {
+        "name": "app_bundle_identifier",
+        "type": "STRING"
+      },
+      {
+        "name": "system_sdk_version",
+        "type": "STRING"
+      },
+      {
+        "name": "system_default_language",
+        "type": "STRING"
+      },
+      {
+        "name": "manufacturer",
+        "type": "STRING"
+      },
+      {
+        "name": "model_name",
+        "type": "STRING"
+      },
+      {
+        "name": "preference_daytime",
+        "type": "STRING"
+      },
+      {
+        "name": "preference_is_nightmode_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "screen_orientation",
+        "type": "STRING"
+      },
+      {
+        "name": "screen_display_scale",
+        "type": "STRING"
+      },
+      {
+        "name": "screen_font_scale",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "accessibility_enabled_accessibility_services",
+        "type": "STRING"
+      },
+      {
+        "name": "accessibility_is_accessibility_manager_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_closed_captioning_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_touch_exploration_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_voice_access_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_talk_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_samsung_talk_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_select_to_speak_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_braille_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_color_blind_mode_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_color_inversion_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_switch_access_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_high_text_contrast_enabled",
+        "type": "BOOLEAN"
+      }
+    ],
+    "name": "currentMeasurement",
+    "type": "RECORD"
+  },
+  {
+    "fields": [
+      {
+        "name": "stats_timestamp",
+        "type": "STRING"
+      },
+      {
+        "name": "stats_version",
+        "type": "STRING"
+      },
+      {
+        "name": "stats_library_version",
+        "type": "STRING"
+      },
+      {
+        "name": "app_bundle_identifier",
+        "type": "STRING"
+      },
+      {
+        "name": "system_sdk_version",
+        "type": "STRING"
+      },
+      {
+        "name": "system_default_language",
+        "type": "STRING"
+      },
+      {
+        "name": "manufacturer",
+        "type": "STRING"
+      },
+      {
+        "name": "model_name",
+        "type": "STRING"
+      },
+      {
+        "name": "preference_daytime",
+        "type": "STRING"
+      },
+      {
+        "name": "preference_is_nightmode_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "screen_orientation",
+        "type": "STRING"
+      },
+      {
+        "name": "screen_display_scale",
+        "type": "STRING"
+      },
+      {
+        "name": "screen_font_scale",
+        "type": "STRING"
+      },
+      {
+        "mode": "REPEATED",
+        "name": "accessibility_enabled_accessibility_services",
+        "type": "STRING"
+      },
+      {
+        "name": "accessibility_is_accessibility_manager_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_closed_captioning_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_touch_exploration_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_voice_access_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_talk_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_samsung_talk_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_select_to_speak_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_braille_back_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_color_blind_mode_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_color_inversion_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_switch_access_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_high_text_contrast_enabled",
+        "type": "BOOLEAN"
+      }
+    ],
+    "name": "previousMeasurement",
+    "type": "RECORD"
+  },
+  {
+    "name": "current_hash",
+    "type": "INTEGER"
+  },
+  {
+    "name": "previous_hash",
+    "type": "INTEGER"
+  }
+]

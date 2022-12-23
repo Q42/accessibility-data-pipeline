@@ -1,0 +1,158 @@
+[
+  {
+    "name": "stats_timestamp",
+    "type": "STRING"
+  },
+  {
+    "name": "stats_version",
+    "type": "STRING"
+  },
+  {
+    "name": "app_bundle_identifier",
+    "type": "STRING"
+  },
+  {
+    "name": "system_model_id",
+    "type": "STRING"
+  },
+  {
+    "name": "system_model_name",
+    "type": "STRING"
+  },
+  {
+    "name": "system_os_major_version",
+    "type": "STRING"
+  },
+  {
+    "name": "system_preferred_language",
+    "type": "STRING"
+  },
+  {
+    "name": "system_dutch_region",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "preference_ui_style",
+    "type": "STRING"
+  },
+  {
+    "name": "preference_preferred_content_size",
+    "type": "STRING"
+  },
+  {
+    "name": "preference_daytime",
+    "type": "STRING"
+  },
+  {
+    "name": "screen_width",
+    "type": "INTEGER"
+  },
+  {
+    "name": "screen_window_width",
+    "type": "INTEGER"
+  },
+  {
+    "name": "screen_scale",
+    "type": "STRING"
+  },
+  {
+    "name": "screen_zoomed",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "screen_orientation",
+    "type": "STRING"
+  },
+  {
+    "name": "screen_display_gamut",
+    "type": "STRING"
+  },
+  {
+    "name": "screen_device_idiom",
+    "type": "STRING"
+  },
+  {
+    "name": "screen_in_split_screen",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_uses_any_accessibility_setting",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_switch_control_running",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_voice_over_running",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_invert_colors_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_assistive_touch_running_with_is_guided_access_enabled",
+    "type": "STRING"
+  },
+  {
+    "name": "accessibility_is_speak_screen_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_mono_audio_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_guided_access_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_darker_system_colors_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_closed_captioning_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_reduce_transparency_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_shake_to_undo_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_bold_text_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_grayscale_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "accessibility_is_speak_selection_enabled",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "apple_pay_available",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "apple_pay_with_maestro_available",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "watch_paired",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "watch_supported",
+    "type": "BOOLEAN"
+  },
+  {
+    "name": "fields_hash",
+    "type": "INTEGER"
+  }
+]

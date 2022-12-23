@@ -1,0 +1,4 @@
+runtime: python39
+automatic_scaling:
+  min_instances: 1
+  min_idle_instances: 1

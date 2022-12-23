@@ -1,0 +1,11 @@
+{
+    "firestore_database": "",
+    "firestore_collection": "",
+    "export_bucket": "",
+    "import_table": "",
+    "events_table": "",
+    "updates_table": "",
+    "aggregation_table": "",
+    "organisation_identifier": "",
+    "service_account": {}
+}
