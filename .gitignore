@@ -1,0 +1,16 @@
+__pycache__
+.idea
+.DS_Store
+
+settings.json
+
+api/secrets
+
+pipelines/*.json
+!pipelines/config.json
+
+pipelines/config/*.json
+!pipelines/config/android-example.json
+!pipelines/config/ios-example.json
+
+pipelines/schemas/organisations.json
