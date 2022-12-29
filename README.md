@@ -14,7 +14,7 @@ The entire process consists of three main components.
 
 ### 1. The mobile library
 The mobile library component is embedded in applications and reads user settings in regard to accessibility settings.
-The libraries that are currently being used are:
+Currently the following two libraries are being used:
 1. [Q42Stats for iOS](https://github.com/Q42/Q42Stats)
 2. [Q42Stats for Android](https://github.com/Q42/Q42Stats.Android)
 
