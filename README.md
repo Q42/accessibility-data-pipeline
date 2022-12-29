@@ -15,8 +15,8 @@ The entire process consists of three main components.
 ### 1. The mobile library
 The mobile library component is embedded in applications and reads user settings in regard to accessibility settings.
 The libraries that are currently being used are:
-1. [https://github.com/Q42/Q42Stats](Q42Stats for iOS)
-2. [https://github.com/Q42/Q42Stats.Android](Q42Stats for Android)
+1. [https://github.com/Q42/Q42Stats] (Q42Stats for iOS)
+2. [https://github.com/Q42/Q42Stats.Android] (Q42Stats for Android)
 
 ### 2. The API
 A Flask API that handles requests send by the mobile library. It performs basic validation of the requests and passes the request body in its entirety to the correct Firestore collection.
