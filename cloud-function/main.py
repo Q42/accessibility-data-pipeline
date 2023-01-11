@@ -4,7 +4,7 @@ from datetime import date
 from google.cloud import aiplatform
 
 # load universal pipeline settings
-with open("../../settings.json", "r") as settings_file:
+with open("settings.json", "r") as settings_file:
     settings = json.load(settings_file)
 
 # Google Cloud project name
