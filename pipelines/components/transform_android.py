@@ -59,21 +59,28 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
             else:
                 return f"ds.{version}Measurement.{field['name']} "
 
-        current_fields = map(lambda field: map_field(field, 'current'), android_fields)
+        project = events_table.split(".")[1]
+        table = events_table.split(".")[2]
+        table_ref = bigquery.DatasetReference(project_name, project).table(table)
+        struct_schema = bigquery_client.get_table(table_ref).schema
+        struct_schema_fields = [field.name for field in struct_schema[1].fields]
+        sorted_struct_schema_fields = sorted(android_fields, key=lambda e: struct_schema_fields.index(e["name"]))
+
+        current_fields = map(lambda field: map_field(field, 'current'), sorted_struct_schema_fields)
         current_fields_str = ", ".join(current_fields)
 
-        previous_fields = map(lambda field: map_field(field, 'previous'), android_fields)
+        previous_fields = map(lambda field: map_field(field, 'previous'), sorted_struct_schema_fields)
         previous_fields_str = ", ".join(previous_fields)
 
         current_hash_input_fields = [f"CAST(ds.currentMeasurement.`{field['from_name']}` AS STRING)" for field in
-                                     android_fields if field['from_name'] != 'Stats_timestamp']
+                                     android_fields if field["hash"]]
         current_hash_fields = f"{', '.join(current_hash_input_fields)}"
 
         previous_hash_input_fields = [f"CAST(ds.previousMeasurement.`{field['from_name']}` AS STRING)" for field in
-                                      android_fields if field['from_name'] != 'Stats_timestamp']
+                                      android_fields if field["hash"]]
         previous_hash_fields = f"{', '.join(previous_hash_input_fields)}"
         # Deduplicate, sometimes 2 documents exist with same instance ID and timestamp
-        # a check for Stats_Version is to force usage of the fixed version of the  libra
+        # a check for Stats_Version is to force usage of the fixed version of the library
         return f"""
             WITH
                 ds AS (SELECT * FROM `{raw_data_table}`),
