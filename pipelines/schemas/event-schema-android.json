@@ -46,6 +46,10 @@
         "type": "BOOLEAN"
       },
       {
+        "name": "preference_font_weight_adjustment",
+        "type": "INTEGER"
+      },
+      {
         "name": "screen_orientation",
         "type": "STRING"
       },
@@ -108,6 +112,14 @@
       },
       {
         "name": "accessibility_is_high_text_contrast_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_magnification_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_animation_disabled",
         "type": "BOOLEAN"
       }
     ],
@@ -157,6 +169,10 @@
         "type": "BOOLEAN"
       },
       {
+        "name": "preference_font_weight_adjustment",
+        "type": "INTEGER"
+      },
+      {
         "name": "screen_orientation",
         "type": "STRING"
       },
@@ -219,6 +235,14 @@
       },
       {
         "name": "accessibility_is_high_text_contrast_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_magnification_enabled",
+        "type": "BOOLEAN"
+      },
+      {
+        "name": "accessibility_is_animation_disabled",
         "type": "BOOLEAN"
       }
     ],
