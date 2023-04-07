@@ -27,6 +27,7 @@ def bigquery_aggregate_events_op(
         for field in struct_schema:
             if field.name in ["screen_display_scale_default_comparison", "screen_font_scale_default_comparison"]:
                 select_statement.append("NULL")
+            # note that this check was introduced at a later time. Previously all fields but the time were included.
             elif field.name == "fields_hash":
                 select_statement.append("current_hash as fields_hash")
             else:
