@@ -18,3 +18,7 @@
 ### To update all schema's:
 - Edit the fields for both the aggregated and events version of the tables
 - Run `update_table_schemas.py`. This script makes use of the same virtualenv as the pipeline
+
+### To make a copy of a table:
+For development purposes it might be convenient to create a test table
+- `bq cp <project>:<dataset>.<table> <project>:<dataset>.<test_table_name>`
