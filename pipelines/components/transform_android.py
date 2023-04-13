@@ -104,7 +104,7 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
             STRUCT({previous_fields_str}) AS previousMeasurement,
             FARM_FINGERPRINT(array_to_string([{current_hash_fields}], ',')) AS current_hash,
             FARM_FINGERPRINT(array_to_string([{previous_hash_fields}], ',')) AS previous_hash FROM ds WHERE 
-            ds.__key__.name NOT IN (select doc_id from events) AND ds.Stats_Version > "Android 2022-07-12" """
+            ds.__key__.name NOT IN (select doc_id from events) AND ds.currentMeasurement.Stats_Version > "Android 2022-07-12" """
 
     print(f"BigQuery: start transforming raw data to typed data")
     bigquery_client = bigquery.Client(project=project_name)
