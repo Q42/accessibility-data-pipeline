@@ -6,6 +6,7 @@ def firestore_export_op(firestore_database: str, firestore_collection: str, expo
                         organisation_identifier: str, platform: str, pipeline_version: str,
                         service_account: dict) -> str:
     from google.cloud import firestore_admin_v1
+    from google.cloud import storage
 
     def get_firestore_admin_client(service_account):
         if not service_account:
@@ -13,19 +14,35 @@ def firestore_export_op(firestore_database: str, firestore_collection: str, expo
         else:
             return firestore_admin_v1.FirestoreAdminClient.from_service_account_info(service_account)
 
+    def get_storage_client(service_account):
+        if not service_account:
+            return storage.Client()
+        else:
+            return storage.Client.from_service_account_info(service_account)
+
     print(f"Firestore: starting export")
-    client = get_firestore_admin_client(service_account)
+    firestore_client = get_firestore_admin_client(service_account)
+    storage_client = get_storage_client(service_account)
 
     # Prepare export job
-    firestore_db = client.database_path(firestore_database, "(default)")
-    gcs_path = f"gs://{export_bucket}/firestore-exports/{organisation_identifier}-{platform}-{pipeline_version}"
+    firestore_db = firestore_client.database_path(firestore_database, "(default)")
+    export_path = f"firestore-exports/{organisation_identifier}-{platform}-{pipeline_version}"
+    gcs_path = f"gs://{export_bucket}/{export_path}"
+
+    # Check if the directory exists and delete it if it does
+    bucket = storage_client.bucket(export_bucket)
+    blobs = bucket.list_blobs(prefix=export_path)
+    for blob in blobs:
+        blob.delete()
+    print(f"Deleted existing files in {gcs_path}")
+
     export_request = firestore_admin_v1.ExportDocumentsRequest(
         name=firestore_db,
         collection_ids=[firestore_collection],
         output_uri_prefix=gcs_path)
 
     # Start export and wait for result
-    operation = client.export_documents(
+    operation = firestore_client.export_documents(
         request=export_request,
     )
     result = operation.result()
