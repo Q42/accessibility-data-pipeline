@@ -5,62 +5,97 @@ from kfp.v2.dsl import component
 def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, events_table: str,
                                        project_name: str) -> str:
     from google.cloud import bigquery
+    android_fields = [
+                # Regular fields
+                {"name": "stats_timestamp", "from_name": "Stats_timestamp", "hash": False},
+                {"name": "stats_version", "from_name": "Stats_Model_Version", "hash": True},
+                {"name": "stats_library_version", "from_name": "Stats_Version", "hash": False},
+                {"name": "app_bundle_identifier", "from_name": "applicationId", "hash": True},
+                # Fields w.r.t. system
+                {"name": "system_sdk_version", "from_name": "sdkVersion", "hash": True},
+                {"name": "system_default_language", "from_name": "defaultLanguage", "hash": True},
+                {"name": "manufacturer", "from_name": "manufacturer", "hash": True},
+                {"name": "model_name", "from_name": "modelName", "hash": True},
+                # Fields w.r.t. preference
+                {"name": "preference_daytime", "from_name": "daytime", "hash": True},
+                {"name": "preference_is_nightmode_enabled", "from_name": "isNightmodeEnabled", "type": "BOOLEAN",
+                "hash": True},
+                # Fields w.r.t. screen
+                {"name": "screen_orientation", "from_name": "screenOrientation", "hash": True},
+                {"name": "screen_display_scale", "from_name": "displayScale", "hash": True},
+                {"name": "screen_font_scale", "from_name": "fontScale", "hash": True},
+                # Fields w.r.t. accessibility
+                {"name": "accessibility_enabled_accessibility_services", "from_name": "enabledAccessibilityServices",
+                "mode": "REPEATED", "hash": True},
+                {"name": "accessibility_is_accessibility_manager_enabled", "from_name": "isAccessibilityManagerEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_closed_captioning_enabled", "from_name": "isClosedCaptioningEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_touch_exploration_enabled", "from_name": "isTouchExplorationEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_voice_access_enabled", "from_name": "isVoiceAccessEnabled", "type": "BOOLEAN",
+                "hash": True},
+                {"name": "accessibility_is_talk_back_enabled", "from_name": "isTalkBackEnabled", "type": "BOOLEAN",
+                "hash": True},
+                {"name": "accessibility_is_samsung_talk_back_enabled", "from_name": "isSamsungTalkbackEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_select_to_speak_enabled", "from_name": "isSelectToSpeakEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_braille_back_enabled", "from_name": "isBrailleBackEnabled", "type": "BOOLEAN",
+                "hash": True},
+                {"name": "accessibility_is_color_blind_mode_enabled", "from_name": "isColorBlindModeEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_color_inversion_enabled", "from_name": "isColorInversionEnabled",
+                "type": "BOOLEAN", "hash": True},
+                {"name": "accessibility_is_switch_access_enabled", "from_name": "isSwitchAccessEnabled", "type": "BOOLEAN",
+                "hash": True},
+                {"name": "preference_font_weight_adjustment", "from_name": "fontWeightAdjustment", "type": "INTEGER",
+                "hash": False},
+                {"name": "accessibility_is_high_text_contrast_enabled", "from_name": "isHighTextContrastEnabled",
+                "type": "BOOLEAN", "hash": False},
+                {"name": "accessibility_is_magnification_enabled", "from_name": "isMagnificationEnabled", "type": "BOOLEAN",
+                "hash": False},
+                {"name": "accessibility_is_animation_disabled", "from_name": "isAnimationsDisabled", "type": "BOOLEAN",
+                "hash": False},
+            ]
+
+    # Update the schema of the raw data table to always include previousMeasurement and the required struct fields
+    def update_table_schema(table_ref):
+        table = bigquery_client.get_table(table_ref)
+        current_schema = table.schema
+        struct_fields_schemas = {bigquery.SchemaField(field["from_name"], 'STRING', mode='NULLABLE') for field in android_fields}
+        key_field = bigquery.SchemaField("__key__", 'RECORD', mode='NULLABLE', fields=[
+            bigquery.SchemaField('namespace', 'STRING', mode='NULLABLE'),
+            bigquery.SchemaField('app', 'STRING', mode='NULLABLE'),
+            bigquery.SchemaField('path', 'STRING', mode='NULLABLE'),
+            bigquery.SchemaField('kind', 'STRING', mode='NULLABLE'),
+            bigquery.SchemaField('name', 'STRING', mode='NULLABLE'),
+            bigquery.SchemaField('id', 'INTEGER', mode='NULLABLE'),
+            ])
+
+        struct_fields_schemas.add(key_field)
+
+        new_schema = []
+        for field in current_schema:
+            if field.field_type == 'RECORD' and field.name in ['currentMeasurement', 'previousMeasurement']:
+                new_struct_field = bigquery.SchemaField(
+                name=field.name,
+                field_type=field.field_type,
+                mode=field.mode,
+                fields=struct_fields_schemas
+            )
+                new_schema.append(new_struct_field)
+            else:
+                new_schema.append(field)
+
+        if "previousMeasurement" not in [field.name for field in new_schema]:
+            new_schema.append(bigquery.SchemaField("previousMeasurement", "RECORD", mode="NULLABLE", fields=struct_fields_schemas))
+
+        table.schema = new_schema
+        bigquery_client.update_table(table, ['schema'])
+        print(f"Schema updated for table {table_ref}")
 
     def transform_raw_data_to_typed_data_query():
-        android_fields = [
-            # Regular fields
-            {"name": "stats_timestamp", "from_name": "Stats_timestamp", "hash": False},
-            {"name": "stats_version", "from_name": "Stats_Model_Version", "hash": True},
-            {"name": "stats_library_version", "from_name": "Stats_Version", "hash": False},
-            {"name": "app_bundle_identifier", "from_name": "applicationId", "hash": True},
-            # Fields w.r.t. system
-            {"name": "system_sdk_version", "from_name": "sdkVersion", "hash": True},
-            {"name": "system_default_language", "from_name": "defaultLanguage", "hash": True},
-            {"name": "manufacturer", "from_name": "manufacturer", "hash": True},
-            {"name": "model_name", "from_name": "modelName", "hash": True},
-            # Fields w.r.t. preference
-            {"name": "preference_daytime", "from_name": "daytime", "hash": True},
-            {"name": "preference_is_nightmode_enabled", "from_name": "isNightmodeEnabled", "type": "BOOLEAN",
-             "hash": True},
-            # Fields w.r.t. screen
-            {"name": "screen_orientation", "from_name": "screenOrientation", "hash": True},
-            {"name": "screen_display_scale", "from_name": "displayScale", "hash": True},
-            {"name": "screen_font_scale", "from_name": "fontScale", "hash": True},
-            # Fields w.r.t. accessibility
-            {"name": "accessibility_enabled_accessibility_services", "from_name": "enabledAccessibilityServices",
-             "mode": "REPEATED", "hash": True},
-            {"name": "accessibility_is_accessibility_manager_enabled", "from_name": "isAccessibilityManagerEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_closed_captioning_enabled", "from_name": "isClosedCaptioningEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_touch_exploration_enabled", "from_name": "isTouchExplorationEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_voice_access_enabled", "from_name": "isVoiceAccessEnabled", "type": "BOOLEAN",
-             "hash": True},
-            {"name": "accessibility_is_talk_back_enabled", "from_name": "isTalkBackEnabled", "type": "BOOLEAN",
-             "hash": True},
-            {"name": "accessibility_is_samsung_talk_back_enabled", "from_name": "isSamsungTalkbackEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_select_to_speak_enabled", "from_name": "isSelectToSpeakEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_braille_back_enabled", "from_name": "isBrailleBackEnabled", "type": "BOOLEAN",
-             "hash": True},
-            {"name": "accessibility_is_color_blind_mode_enabled", "from_name": "isColorBlindModeEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_color_inversion_enabled", "from_name": "isColorInversionEnabled",
-             "type": "BOOLEAN", "hash": True},
-            {"name": "accessibility_is_switch_access_enabled", "from_name": "isSwitchAccessEnabled", "type": "BOOLEAN",
-             "hash": True},
-            {"name": "preference_font_weight_adjustment", "from_name": "fontWeightAdjustment", "type": "INTEGER",
-             "hash": False},
-            {"name": "accessibility_is_high_text_contrast_enabled", "from_name": "isHighTextContrastEnabled",
-             "type": "BOOLEAN", "hash": False},
-            {"name": "accessibility_is_magnification_enabled", "from_name": "isMagnificationEnabled", "type": "BOOLEAN",
-             "hash": False},
-            {"name": "accessibility_is_animation_disabled", "from_name": "isAnimationsDisabled", "type": "BOOLEAN",
-             "hash": False},
-        ]
-
         # Fixes for legacy field names and data types
         def map_field(field, version):
             from_name = field['from_name'] if 'from_name' in field else field['name']
@@ -103,14 +138,21 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
             STRUCT({current_fields_str}) AS currentMeasurement,
             STRUCT({previous_fields_str}) AS previousMeasurement,
             FARM_FINGERPRINT(array_to_string([{current_hash_fields}], ',')) AS current_hash,
-            FARM_FINGERPRINT(array_to_string([{previous_hash_fields}], ',')) AS previous_hash FROM ds WHERE 
+            FARM_FINGERPRINT(array_to_string([{previous_hash_fields}], ',')) AS previous_hash FROM ds WHERE
             ds.__key__.name NOT IN (select doc_id from events) AND ds.currentMeasurement.Stats_Version > "Android 2022-07-12" """
 
     print(f"BigQuery: start transforming raw data to typed data")
     bigquery_client = bigquery.Client(project=project_name)
 
+    # Update schema if necessary
+    raw_data_table_ref = bigquery.TableReference.from_string(raw_data_table, default_project=project_name)
+    update_table_schema(raw_data_table_ref)
+
     # Prepare query job
-    job_config = bigquery.QueryJobConfig(destination=updates_table)
+    job_config = bigquery.QueryJobConfig(
+    destination=updates_table,
+    write_disposition=bigquery.WriteDisposition.WRITE_APPEND
+    )
     query = transform_raw_data_to_typed_data_query()
 
     # Start the query, passing in the extra configuration and wait for result
