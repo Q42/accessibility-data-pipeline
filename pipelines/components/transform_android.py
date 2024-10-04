@@ -144,7 +144,7 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
     print(f"BigQuery: start transforming raw data to typed data")
     bigquery_client = bigquery.Client(project=project_name)
 
-    # Update schema if necessary
+    # Update schema
     raw_data_table_ref = bigquery.TableReference.from_string(raw_data_table, default_project=project_name)
     update_table_schema(raw_data_table_ref)
 
