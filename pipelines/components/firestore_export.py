@@ -31,7 +31,7 @@ def firestore_export_op(firestore_database: str, firestore_collection: str, expo
 
     # Check if the directory exists and delete it if it does
     bucket = storage_client.bucket(export_bucket)
-    blobs = bucket.list_blobs(prefix=export_path)
+    blobs = bucket.list_blobs(prefix=f"firestore-exports/{organisation_identifier}-{platform}")
     for blob in blobs:
         blob.delete()
     print(f"Deleted existing files in {gcs_path}")
