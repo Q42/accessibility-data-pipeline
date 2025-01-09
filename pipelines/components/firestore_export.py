@@ -1,7 +1,7 @@
 from kfp.v2.dsl import component
 
 
-@component(packages_to_install=["google-cloud-firestore==2.3.4"])
+@component(packages_to_install=["google-cloud-firestore==2.3.4", "google-cloud-storage==1.42.3"])
 def firestore_export_op(firestore_database: str, firestore_collection: str, export_bucket: str,
                         organisation_identifier: str, platform: str, pipeline_version: str,
                         service_account: dict) -> str:
