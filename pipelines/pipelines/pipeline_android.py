@@ -4,7 +4,7 @@ import kfp.dsl as dsl
 from components.cleanup_firestore import firestore_cleanup
 from components.firestore_export import firestore_export_op
 from components.bigquery_import import bigquery_import_op
-from components.transform_android import bigquery_raw_data_to_typed_data_op
+from components.transform import bigquery_raw_data_to_typed_data_op
 from components.merge import bigquery_merge_updates_into_events_table_op
 from components.cleanup_storage_export_intermediate import cleanup_storage_export_intermediate
 from components.cleanup_bigquery_raw_data_intermediate import cleanup_bigquery_raw_data_intermediate
@@ -99,10 +99,12 @@ def pipeline_android(
 
     # transform bigquery changes table (remove duplicates) and cast correct types
     transform_result = bigquery_raw_data_to_typed_data_op(
+        storage_bucket=storage_bucket,
         raw_data_table=import_result.output,
         updates_table=temporary_updates_table,
         events_table=events_table,
-        project_name=project_name
+        project_name=project_name,
+        platform=platform
     )
 
     # merge existing events table with updates

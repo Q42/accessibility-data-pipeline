@@ -20,6 +20,10 @@ storage_bucket = settings["storage_bucket"]
 # Upload to GCS
 storage_client = storage.Client(project=project_name)
 bucket = storage_client.bucket(storage_bucket)
+
+blob = bucket.blob(f"schemas/schema-{platform}.json")
+blob.upload_from_filename(f"schemas/schema-{platform}.json")
+
 blob = bucket.blob(f"templates/{job_spec_path}")
 blob.upload_from_filename(job_spec_path)
 

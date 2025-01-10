@@ -3,14 +3,12 @@ from kfp import compiler
 from pipelines.pipeline_android import pipeline_android
 from pipelines.pipeline_ios import pipeline_ios
 
-
 # load universal pipeline settings
 with open("config.json", "r") as config_file:
     config = json.load(config_file)
 
 # pipeline version
 pipeline_version = config["pipeline_version"]
-
 
 def compile_pipeline(platform):
     pipeline_func = get_pipeline_func(platform)
@@ -21,7 +19,6 @@ def compile_pipeline(platform):
     )
     return template_path
 
-
 def get_pipeline_func(platform):
     if platform == "ios":
         return pipeline_ios
@@ -29,7 +26,6 @@ def get_pipeline_func(platform):
         return pipeline_android
     else:
         raise Exception(f"invalid platform {platform}")
-
 
 def get_template_path(platform):
     if platform == "ios" or platform == "android":

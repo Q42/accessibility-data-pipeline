@@ -1,0 +1,192 @@
+[
+    {
+        "event_name": "Stats_timestamp",
+        "name": "stats_timestamp",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Stats_version",
+        "name": "stats_version",
+        "type": "STRING"
+    },
+    {
+        "event_name": "App_bundle_identifier",
+        "name": "app_bundle_identifier",
+        "type": "STRING"
+    },
+    {
+        "event_name": "System_model_id",
+        "name": "system_model_id",
+        "type": "STRING"
+    },
+    {
+        "event_name": "System_model_name",
+        "name": "system_model_name",
+        "type": "STRING"
+    },
+    {
+        "event_name": "System_OS_major_version",
+        "name": "system_os_major_version",
+        "type": "STRING"
+    },
+    {
+        "event_name": "System_Preferred_language",
+        "name": "system_preferred_language",
+        "type": "STRING"
+    },
+    {
+        "event_name": "System_Dutch_region",
+        "name": "system_dutch_region",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Preference_UI_style",
+        "name": "preference_ui_style",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Preference_preferred_content_size",
+        "name": "preference_preferred_content_size",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Preference_daytime",
+        "name": "preference_daytime",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Screen_width",
+        "name": "screen_width",
+        "type": "INTEGER"
+    },
+    {
+        "event_name": "Screen_window_width",
+        "name": "screen_window_width",
+        "type": "INTEGER"
+    },
+    {
+        "event_name": "Screen_scale",
+        "name": "screen_scale",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Screen_zoomed",
+        "name": "screen_zoomed",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Screen_orientation",
+        "name": "screen_orientation",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Screen_display_gamut",
+        "name": "screen_display_gamut",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Screen_device_idiom",
+        "name": "screen_device_idiom",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Screen_in_split_screen",
+        "name": "screen_in_split_screen",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_uses_any_accessibility_setting",
+        "name": "accessibility_uses_any_accessibility_setting",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isSwitchControlRunning",
+        "name": "accessibility_is_switch_control_running",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isVoiceOverRunning",
+        "name": "accessibility_is_voice_over_running",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isInvertColorsEnabled",
+        "name": "accessibility_is_invert_colors_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isAssistiveTouchRunning_with_isGuidedAccessEnabled",
+        "name": "accessibility_is_assistive_touch_running_with_is_guided_access_enabled",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Accessibility_isSpeakScreenEnabled",
+        "name": "accessibility_is_speak_screen_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isMonoAudioEnabled",
+        "name": "accessibility_is_mono_audio_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isGuidedAccessEnabled",
+        "name": "accessibility_is_guided_access_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isDarkerSystemColorsEnabled",
+        "name": "accessibility_is_darker_system_colors_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isClosedCaptioningEnabled",
+        "name": "accessibility_is_closed_captioning_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isReduceTransparencyEnabled",
+        "name": "accessibility_is_reduce_transparency_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isShakeToUndoEnabled",
+        "name": "accessibility_is_shake_to_undo_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isBoldTextEnabled",
+        "name": "accessibility_is_bold_text_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isGrayscaleEnabled",
+        "name": "accessibility_is_grayscale_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Accessibility_isSpeakSelectionEnabled",
+        "name": "accessibility_is_speak_selection_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Apple_Pay_available",
+        "name": "apple_pay_available",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Apple_Pay_with_Maestro_available",
+        "name": "apple_pay_with_maestro_available",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Watch_paired",
+        "name": "watch_paired",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Watch_supported",
+        "name": "watch_supported",
+        "type": "BOOLEAN"
+    }
+]
