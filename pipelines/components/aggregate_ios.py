@@ -11,8 +11,14 @@ def bigquery_aggregate_events_op(updates_table: str, aggregation_table: str, pro
         return f"""
                 INSERT INTO `{aggregation_table}`
                 SELECT currentMeasurement.*, current_hash as fields_hash FROM `{updates_table}`;
+
                 DELETE FROM `{aggregation_table}`
-                WHERE (CONCAT(fields_hash, stats_timestamp) IN (SELECT CONCAT(previous_hash, previousMeasurement.stats_timestamp) concatenated_updates FROM `{updates_table}`))
+                WHERE (
+                    fields_hash IN (
+                        SELECT previous_hash concatenated_updates
+                        FROM `{updates_table}`
+                    )
+                )
         """
 
     print(f"BigQuery: start aggregating event data")
