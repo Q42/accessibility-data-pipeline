@@ -78,10 +78,10 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
             # - SPLIT is used to convert the string into an array
             # We always assume the array is an array of strings
             if field.mode == "REPEATED":
-                return f"SPLIT(SUBSTR(ds.{version}Measurement.`{field.raw_name}`, 2, LENGTH(ds.{version}Measurement.`{field.raw_name}`) - 2), ', ') AS {field.name}"
+                return f"SPLIT(SUBSTR(ds.{version}Measurement.`{field.raw_name}`, 2, LENGTH(ds.{version}Measurement.`{field.raw_name}`) - 2), ', ') AS `{field.name}`"
 
             # Otherwise we cast the field to the correct type
-            return f"CAST(ds.{version}Measurement.`{field.raw_name}` AS {field.type}) AS {field.name}"
+            return f"CAST(ds.{version}Measurement.`{field.raw_name}` AS {field.type}) AS `{field.name}`"
 
         current_fields = map(lambda field: map_field(field, "current"), typed_schema)
         current_fields_str = ", ".join(current_fields)
@@ -130,11 +130,11 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
     )
     query = transform_raw_data_to_typed_data_query()
 
+    print(f"BigQuery: executing query... \n {query}")
+
     # Start the query, passing in the extra configuration and wait for result
     query_job = bigquery_client.query(query, job_config=job_config)
     result = query_job.result()
-
-    print(query)
 
     print(f"Transform finished: {result.total_rows}")
     return updates_table
