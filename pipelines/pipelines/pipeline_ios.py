@@ -45,7 +45,6 @@ with open("config.json", "r") as config_file:
 # pipeline version
 pipeline_version = config["pipeline_version"]
 
-
 @dsl.pipeline(
     name='export-firestore-to-bigquery-ios',
     description='Export Firestore data to BigQuery (iOS)',
@@ -73,27 +72,78 @@ def pipeline_ios(
     aggregation_table = f"{aggregation_table}_{pipeline_version}"
 
     # raw data set with changes from firestore
-    export_result = firestore_export_op(firestore_database, firestore_collection, export_bucket,
-                                        organisation_identifier, platform, pipeline_version,
-                                        service_account)
+    export_result = firestore_export_op(
+        firestore_database=firestore_database,
+        firestore_collection=firestore_collection,
+        export_bucket=export_bucket,
+        organisation_identifier=organisation_identifier,
+        platform=platform,
+        pipeline_version=pipeline_version,
+        service_account=service_account
+    )
+
     # if needed, move exported data to correct region
-    move_result = storage_move_files_op(export_bucket, import_bucket, export_result.output, project_name)
+    move_result = storage_move_files_op(
+        source_bucket_name=export_bucket,
+        dest_bucket_name=import_bucket,
+        export_uri=export_result.output,
+        project_name=project_name
+    )
+
     # transfer changes data set to bigquery
-    import_result = bigquery_import_op(firestore_collection, temporary_import_table, move_result.output, project_name)
+    import_result = bigquery_import_op(
+        collection_id=firestore_collection,
+        table_id=temporary_import_table,
+        storage_uri_prefix=move_result.output,
+        project_name=project_name
+    )
+
     # transform bigquery changes table (remove duplicates) and cast correct types
-    transform_result = bigquery_raw_data_to_typed_data_op(import_result.output, temporary_updates_table, events_table,
-                                                          project_name)
+    transform_result = bigquery_raw_data_to_typed_data_op(
+        raw_data_table=import_result.output,
+        updates_table=temporary_updates_table,
+        events_table=events_table,
+        project_name=project_name
+    )
+
     # merge existing events table with updates
-    merge_result = bigquery_merge_updates_into_events_table_op(transform_result.output, events_table, project_name)
+    merge_result = bigquery_merge_updates_into_events_table_op(
+        updates_table=transform_result.output,
+        events_table=events_table,
+        project_name=project_name
+    )
+
     # aggregate total by retaining only the most recent status per installation
-    aggregate_result = bigquery_aggregate_events_op(transform_result.output, aggregation_table, project_name)
-    # # clean up firestore
-    firestore_cleanup(firestore_database, firestore_collection, platform, aggregate_result.output, service_account,
-                      project_name)
+    aggregate_result = bigquery_aggregate_events_op(
+        updates_table=transform_result.output,
+        aggregation_table=aggregation_table,
+        project_name=project_name
+    )
+
+    # clean up firestore
+    firestore_cleanup(
+        firestore_database=firestore_database,
+        firestore_collection_id=firestore_collection,
+        platform=platform,
+        aggregation_table=aggregate_result.output,
+        service_account=service_account,
+        project_name=project_name
+    )
+
     # clean up firestore export
-    cleanup_storage_export_intermediate(import_bucket, move_result.output).after(aggregate_result, merge_result)
+    cleanup_storage_export_intermediate(
+        bucket_name=import_bucket,
+        storage_uri_prefix=move_result.output
+    ).after(aggregate_result, merge_result)
+
     # clean up raw data set in bigquery
-    cleanup_bigquery_raw_data_intermediate(import_result.output, project_name).after(aggregate_result, merge_result)
+    cleanup_bigquery_raw_data_intermediate(
+        raw_data_table=import_result.output,
+        project_name=project_name
+    ).after(aggregate_result, merge_result)
+
     # clean up transformed dataset in bigquery
-    cleanup_bigquery_structured_data_intermediate(transform_result.output, project_name).after(aggregate_result,
-                                                                                               merge_result)
+    cleanup_bigquery_structured_data_intermediate(
+        structured_data_table=transform_result.output,
+        project_name=project_name
+    ).after(aggregate_result, merge_result)

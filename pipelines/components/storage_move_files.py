@@ -1,6 +1,9 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
-@component(packages_to_install=["google-cloud-storage==1.42.3"])
+@component(
+    packages_to_install=["google-cloud-storage==2.19.0"],
+    base_image="python:3.13"
+)
 def storage_move_files_op(source_bucket_name: str, dest_bucket_name: str, export_uri: str, project_name: str) -> str:
     from google.cloud import storage
 

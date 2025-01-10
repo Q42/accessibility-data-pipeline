@@ -1,6 +1,9 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
-@component(packages_to_install=["google-cloud-storage==1.42.3"])
+@component(
+    packages_to_install=["google-cloud-storage==2.19.0"],
+    base_image="python:3.13"
+)
 def cleanup_storage_export_intermediate(bucket_name: str, storage_uri_prefix: str):
     from google.cloud import storage
 
