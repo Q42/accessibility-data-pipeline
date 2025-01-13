@@ -89,31 +89,38 @@ def bigquery_raw_data_to_typed_data_op(raw_data_table: str, updates_table: str, 
         previous_fields = map(lambda field: map_field(field, "previous"), typed_schema)
         previous_fields_str = ", ".join(previous_fields)
 
-        current_hash_input_fields = [f"CAST(ds.currentMeasurement.`{field.raw_name}` AS STRING)" for field in typed_schema]
-        current_hash_fields = f"{', '.join(current_hash_input_fields)}"
+        current_hash_input_fields = [f"CAST(currentMeasurement.`{field.name}` AS STRING)" if field.mode != "REPEATED" else f"ARRAY_TO_STRING(currentMeasurement.`{field.name}`, ', ')" for field in typed_schema]
+        current_hash_fields = ", ".join(current_hash_input_fields)
 
-        previous_hash_input_fields = [f"CAST(ds.previousMeasurement.`{field.raw_name}` AS STRING)" for field in typed_schema]
-        previous_hash_fields = f"{', '.join(previous_hash_input_fields)}"
+        previous_hash_input_fields = [f"CAST(previousMeasurement.`{field.name}` AS STRING)" if field.mode != "REPEATED" else f"ARRAY_TO_STRING(previousMeasurement.`{field.name}`, ', ')" for field in typed_schema]
+        previous_hash_fields = ", ".join(previous_hash_input_fields)
 
         # A check for Stats_Version is to force usage of the fixed version of the library
         and_statement = ""
 
         if platform == "android":
-            and_statement = "AND ds.currentMeasurement.Stats_Version > 'Android 2022-07-12'"
+            and_statement = "AND currentMeasurement.Stats_Version > 'Android 2022-07-12'"
 
         # Deduplicate, sometimes 2 documents exist with same instance ID and timestamp
         return f"""
             WITH
                 ds AS (SELECT * FROM `{raw_data_table}`),
-                events AS (SELECT * FROM `{events_table}`)
-            SELECT __key__.name as doc_id,
-            STRUCT({current_fields_str}) AS currentMeasurement,
-            STRUCT({previous_fields_str}) AS previousMeasurement,
-            FARM_FINGERPRINT(array_to_string([{current_hash_fields}], ',')) AS current_hash,
-            FARM_FINGERPRINT(array_to_string([{previous_hash_fields}], ',')) AS previous_hash
-            FROM ds
-            WHERE ds.__key__.name NOT IN (SELECT doc_id FROM events)
-            {and_statement};
+                events AS (SELECT * FROM `{events_table}`),
+                typed_data AS (
+                    SELECT ds.__key__.name as doc_id,
+                    STRUCT({current_fields_str}) AS currentMeasurement,
+                    STRUCT({previous_fields_str}) AS previousMeasurement,
+                    FROM ds
+                    WHERE ds.__key__.name NOT IN (SELECT doc_id FROM events)
+                    {and_statement}
+                )
+            SELECT
+                doc_id,
+                currentMeasurement,
+                previousMeasurement,
+                FARM_FINGERPRINT(array_to_string([{current_hash_fields}], ',')) AS current_hash,
+                FARM_FINGERPRINT(array_to_string([{previous_hash_fields}], ',')) AS previous_hash
+            FROM typed_data
             """
 
     print(f"BigQuery: start transforming raw data to typed data")
