@@ -17,3 +17,12 @@ Pipelines to move data from Firestore to Bigquery.
 - Deploy as cron: `python deploy_cron.py <android|ios>`
   - Note: this will replace the Kubeflow template in GCS, so the new template will be used in the next tick of the Cloud Scheduler
   - Note: if you want to export data for a new client, you need to create a new Cloud Scheduler by hand
+
+## Run CLI
+- Create an `organisations.json` file in this directory containing the following schema:
+```
+{
+  "organisations": ["example_org_1", "example_org_2"]
+}
+```
+- Run the CLI using `python main.py`

@@ -1,11 +1,4 @@
-### Prerequisites:
-- Create an `organisations.json` file in this directory containing the following schema:
-```
-{
-  "organisations": ["example_org_1", "example_org_2"]
-}
-```
-
+## README:
 - Schemas are generated from `schema-android.json` and `schema-ios.json`
 
 ### To download a schema:
@@ -14,7 +7,7 @@
 
 ### To add a property to a schema:
 - Edit `schema-{platform}.json` to add the new property
-- Run `update_table_schemas.py`
+- Run the CLI to update the schema
 
 ### To remove a property from a schema:
 - Edit `schema-{platform}.json` to remove the property
