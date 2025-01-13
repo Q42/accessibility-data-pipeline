@@ -60,7 +60,7 @@ while True:
                     for platform, typed_schema in schema_by_platform.items():
                         recompute_hashes(platform, organisation, project_name, pipeline_version, typed_schema)
         case "3":
-            print("This will recompute hashes for the following tables:")
+            print("This will update table schemas for the following tables:")
             for organisation in organisations:
                 for platform in schema_by_platform.keys():
                     print(f"- {project_name}:pipeline_{organisation}.aggregated_data_{platform}_{pipeline_version}")
