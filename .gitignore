@@ -2,6 +2,7 @@ __pycache__
 .idea
 .DS_Store
 venv
+.venv
 
 settings.json
 

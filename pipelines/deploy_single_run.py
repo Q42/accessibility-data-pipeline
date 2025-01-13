@@ -3,6 +3,7 @@ import time
 import json
 from datetime import date
 import google.cloud.aiplatform as aip
+from google.cloud import storage
 from args import get_platform_from_args
 from args import get_project_from_args
 from compile import compile_pipeline
@@ -42,6 +43,11 @@ def parameter_values(platform):
         data["pipeline_job_version"] = pipeline_job_version
         return data
 
+# Upload schema to GCS
+storage_client = storage.Client(project=project_name)
+bucket = storage_client.bucket(storage_bucket)
+blob = bucket.blob(f"schemas/schema-{platform}.json")
+blob.upload_from_filename(f"schemas/schema-{platform}.json")
 
 # Create single run
 job = aip.PipelineJob(
