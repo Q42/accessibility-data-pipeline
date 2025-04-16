@@ -1,7 +1,7 @@
 # Accessibility pipeline
 
 This project facilitates the greater part of an initiative to gather information about usage of accessibility settings on mobile phones.
-The process is currently used for iOS and Android for several different organisations. 
+The process is currently used for iOS and Android for several organisations. 
 Ultimately the results of different organisations can be combined to create insights into accessibility setting usage by mobile users. 
 Q42 currently provides this data to the collaborating organisations using dashboards. 
 The data is also used to supply https://appt.org with relevant accessibility statistics.
