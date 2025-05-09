@@ -1,0 +1,148 @@
+[
+    {
+        "event_name": "Stats timestamp",
+        "name": "stats_timestamp",
+        "type": "STRING"
+    },
+    {
+        "event_name": "Stats Model Version",
+        "name": "stats_version",
+        "type": "STRING"
+    },
+    {
+        "event_name": "applicationId",
+        "name": "app_bundle_identifier",
+        "type": "STRING"
+    },
+    {
+        "event_name": "sdkVersion",
+        "name": "system_sdk_version",
+        "type": "STRING"
+    },
+    {
+        "event_name": "defaultLanguage",
+        "name": "system_default_language",
+        "type": "STRING"
+    },
+    {
+        "event_name": "manufacturer",
+        "name": "manufacturer",
+        "type": "STRING"
+    },
+    {
+        "event_name": "modelName",
+        "name": "model_name",
+        "type": "STRING"
+    },
+    {
+        "event_name": "daytime",
+        "name": "preference_daytime",
+        "type": "STRING"
+    },
+    {
+        "event_name": "isNightmodeEnabled",
+        "name": "preference_is_nightmode_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "screenOrientation",
+        "name": "screen_orientation",
+        "type": "STRING"
+    },
+    {
+        "event_name": "displayScale",
+        "name": "screen_display_scale",
+        "type": "STRING"
+    },
+    {
+        "event_name": "fontScale",
+        "name": "screen_font_scale",
+        "type": "STRING"
+    },
+    {
+        "event_name": "enabledAccessibilityServices",
+        "name": "accessibility_enabled_accessibility_services",
+        "type": "STRING",
+        "mode": "REPEATED"
+    },
+    {
+        "event_name": "isAccessibilityManagerEnabled",
+        "name": "accessibility_is_accessibility_manager_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isClosedCaptioningEnabled",
+        "name": "accessibility_is_closed_captioning_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isTouchExplorationEnabled",
+        "name": "accessibility_is_touch_exploration_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isVoiceAccessEnabled",
+        "name": "accessibility_is_voice_access_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isTalkBackEnabled",
+        "name": "accessibility_is_talk_back_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isSamsungTalkbackEnabled",
+        "name": "accessibility_is_samsung_talk_back_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isSelectToSpeakEnabled",
+        "name": "accessibility_is_select_to_speak_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isBrailleBackEnabled",
+        "name": "accessibility_is_braille_back_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isColorBlindModeEnabled",
+        "name": "accessibility_is_color_blind_mode_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isColorInversionEnabled",
+        "name": "accessibility_is_color_inversion_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isSwitchAccessEnabled",
+        "name": "accessibility_is_switch_access_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "Stats Version",
+        "name": "stats_library_version",
+        "type": "STRING"
+    },
+    {
+        "event_name": "fontWeightAdjustment",
+        "name": "preference_font_weight_adjustment",
+        "type": "INTEGER"
+    },
+    {
+        "event_name": "isHighTextContrastEnabled",
+        "name": "accessibility_is_high_text_contrast_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isMagnificationEnabled",
+        "name": "accessibility_is_magnification_enabled",
+        "type": "BOOLEAN"
+    },
+    {
+        "event_name": "isAnimationsDisabled",
+        "name": "accessibility_is_animation_disabled",
+        "type": "BOOLEAN"
+    }
+]
