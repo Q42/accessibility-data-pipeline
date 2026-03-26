@@ -34,8 +34,8 @@ def recompute_aggregated_hashes_query(table_to_recompute: str, typed_schema: lis
 def recompute_hashes(platform: str, organisation: str, project_name: str, pipeline_version: str, typed_schema: list[SchemaField]):
     bigquery_client = bigquery.Client(project=project_name)
 
-    aggregated_table = f"pipeline_{organisation}.danny_aggregated_data_{platform}_{pipeline_version}"
-    event_table = f"pipeline_{organisation}.danny_event_data_{platform}_{pipeline_version}"
+    aggregated_table = f"pipeline_{organisation}.aggregated_data_{platform}_{pipeline_version}"
+    event_table = f"pipeline_{organisation}.event_data_{platform}_{pipeline_version}"
 
 
     print(f"Recomputing hashes for: {aggregated_table}...")
