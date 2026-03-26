@@ -53,6 +53,9 @@ def create_dummy_data(schema):
 
     if "Stats_version" in dummy_data:
         dummy_data["Stats_version"] = "Android 2023-09-08"
+    
+    if "Stats Version" in dummy_data:
+        dummy_data["Stats Version"] = "Android 2023-09-08"
 
     if "Stats Model Version" in dummy_data:
         dummy_data["Stats Model Version"] = "4"
