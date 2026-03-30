@@ -1,12 +1,14 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
 
-@component(packages_to_install=["google-cloud-firestore==2.3.4"])
+@component(
+    packages_to_install=["google-cloud-firestore==2.26.0", "google-cloud-storage==3.10.1"],
+    base_image="python:3.14"
+)
 def firestore_export_op(firestore_database: str, firestore_collection: str, export_bucket: str,
                         organisation_identifier: str, platform: str, pipeline_version: str,
                         service_account: dict) -> str:
-    from google.cloud import firestore_admin_v1
-    from google.cloud import storage
+    from google.cloud import firestore_admin_v1, storage
 
     def get_firestore_admin_client(service_account):
         if not service_account:

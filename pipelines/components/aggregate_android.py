@@ -1,7 +1,10 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
 
-@component(packages_to_install=["google-cloud-bigquery==2.22.0", "pytz"])
+@component(
+    packages_to_install=["google-cloud-bigquery==3.40.1"],
+    base_image="python:3.14"
+)
 def bigquery_aggregate_events_op(
     updates_table: str, aggregation_table: str, project_name: str
 ) -> str:
@@ -12,8 +15,8 @@ def bigquery_aggregate_events_op(
                 INSERT INTO `{aggregation_table}`
                 SELECT {select_statement} FROM `{updates_table}`;
                 DELETE FROM `{aggregation_table}`
-                WHERE (CONCAT(fields_hash, stats_timestamp) 
-                IN (SELECT CONCAT(previous_hash, previousMeasurement.stats_timestamp) concatenated_updates 
+                WHERE (CONCAT(fields_hash, stats_timestamp)
+                IN (SELECT CONCAT(previous_hash, previousMeasurement.stats_timestamp) concatenated_updates
                 FROM `{updates_table}`))
         """
 
