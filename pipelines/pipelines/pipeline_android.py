@@ -141,16 +141,16 @@ def pipeline_android(
     cleanup_storage_export_intermediate(
         bucket_name=import_bucket,
         storage_uri_prefix=move_result.output
-    ).after(aggregate_result, merge_result)
+    ).after(add_custom_properties_result, merge_result)
 
     # clean up raw data set in bigquery
     cleanup_bigquery_raw_data_intermediate(
         raw_data_table=import_result.output,
         project_name=project_name
-    ).after(aggregate_result, merge_result)
+    ).after(add_custom_properties_result, merge_result)
 
     # clean up transformed dataset in bigquery
     cleanup_bigquery_structured_data_intermediate(
         structured_data_table=transform_result.output,
         project_name=project_name
-    ).after(aggregate_result, merge_result)
+    ).after(add_custom_properties_result, merge_result)
