@@ -1,6 +1,9 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
-@component(packages_to_install=["google-cloud-firestore==2.3.4","google-cloud-bigquery==2.22.0", "pytz"])
+@component(
+    packages_to_install=["google-cloud-firestore==2.19.0", "google-cloud-bigquery==3.27.0"],
+    base_image="python:3.13"
+)
 def firestore_cleanup(firestore_database: str, firestore_collection_id: str, platform: str, aggregation_table: str,
                       service_account: dict, project_name: str):
     from google.cloud import firestore
