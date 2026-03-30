@@ -3,11 +3,15 @@ Pipelines to move data from Firestore to Bigquery.
 
 ## Prerequisites
 - Python 3.13
+- gcloud CLI
 
 ## Setup
 - Create virtualenv: `pyenv virtualenv accessibility-pipeline`
 - Activate virtualenv: `pyenv activate accessibility-pipeline`
 - Install deps: `pip install -r requirements.txt`
+
+- Log in to Google Cloud `gcloud auth application-default login`
+- Set the default project `gcloud config set project PROJECT_ID`
 
 ## Run
 - Fetch config files from 1PW Vault `Team a11y` and copy to folder `config/`
