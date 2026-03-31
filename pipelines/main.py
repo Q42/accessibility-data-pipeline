@@ -48,9 +48,9 @@ while True:
                     print(f"- {project_name}:pipeline_{organisation}.aggregated_data_{platform}_{pipeline_version}")
                     print(f"- {project_name}:pipeline_{organisation}.event_data_{platform}_{pipeline_version}")
 
-            print("Are you sure you want to continue? [Y/n]")
+            print("Are you sure you want to continue? [y/N]")
 
-            confirm = input().strip() or "Y"
+            confirm = input().strip() or "N"
 
             if confirm.lower() == "y":
                 for organisation in organisations:
