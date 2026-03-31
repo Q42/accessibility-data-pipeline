@@ -12,6 +12,7 @@ from components.cleanup_bigquery_structured_data_intermediate import \
     cleanup_bigquery_structured_data_intermediate
 from components.aggregate_ios import bigquery_aggregate_events_op
 from components.storage_move_files import storage_move_files_op
+from components.delete_old_data import delete_old_data
 
 
 """
@@ -147,5 +148,12 @@ def pipeline_ios(
     # clean up transformed dataset in bigquery
     cleanup_bigquery_structured_data_intermediate(
         structured_data_table=transform_result.output,
+        project_name=project_name
+    ).after(aggregate_result, merge_result)
+
+    # delete data older than 365 days
+    delete_old_data(
+        events_table=events_table,
+        aggregation_table=aggregation_table,
         project_name=project_name
     ).after(aggregate_result, merge_result)
