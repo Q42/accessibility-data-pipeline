@@ -14,7 +14,7 @@ with open("config.json", "r") as config_file:
     config = json.load(config_file)
 
 # load list of organisations
-with open("organisations.json", "r") as organisations_file:
+with open("schemas/organisations.json", "r") as organisations_file:
     organisations = json.load(organisations_file)["organisations"]
 
 # pipeline version
