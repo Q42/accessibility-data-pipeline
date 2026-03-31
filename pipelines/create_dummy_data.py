@@ -53,7 +53,7 @@ def create_dummy_data(schema):
         dummy_data[field["event_name"]] = dummy_value
 
     if "Stats_version" in dummy_data:
-        dummy_data["Stats_version"] = "Android 2023-09-08"
+        dummy_data["Stats_version"] = "iOS 2023-09-08"
 
     if "Stats Model Version" in dummy_data:
         dummy_data["Stats Model Version"] = "4"
