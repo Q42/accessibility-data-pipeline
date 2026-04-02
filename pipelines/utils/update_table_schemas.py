@@ -5,7 +5,7 @@ from pathlib import Path
 
 def archive_and_update_table_schema(table_name: str, archive_table_name: str, schema_file: Path):
     # First archive the table
-    archive_result = subprocess.run(["bq","cp","-f",table_name,archive_table_name])
+    archive_result = subprocess.run(["bq", "cp", "-f", table_name, archive_table_name])
 
     if archive_result.returncode != 0:
         print(f"❌ Something went wrong, skipping `{table_name}` update")
@@ -14,7 +14,7 @@ def archive_and_update_table_schema(table_name: str, archive_table_name: str, sc
     print(f"✅ Successfully archived {table_name} to {archive_table_name}")
 
     # Only update the schema if the archive was successful
-    update_result = subprocess.run(["bq","update",table_name,schema_file.absolute()])
+    update_result = subprocess.run(["bq", "update", table_name, str(schema_file.absolute())])
 
     if update_result.returncode != 0:
         print(f"❌ Something went wrong while updating {table_name} schema")
