@@ -10,9 +10,6 @@ platform = get_platform_from_args(sys.argv)
 project = get_project_from_args(sys.argv)
 
 # load universal pipeline settings
-with open("config.json", "r") as config_file:
-    config = json.load(config_file)
-
 with open("../settings.json", "r") as settings_file:
     settings = json.load(settings_file)
 
