@@ -1,2 +1,5 @@
-kfp==1.7.0
-google.cloud.aiplatform==1.21.0
+google-cloud-aiplatform==1.143.0
+google-cloud-bigquery==3.40.1
+google-cloud-firestore==2.26.0
+google-cloud-storage==3.10.1
+kfp==2.16.0

@@ -1,8 +1,9 @@
 import json
-from kfp.v2 import compiler
+
+from kfp import compiler
+
 from pipelines.pipeline_android import pipeline_android
 from pipelines.pipeline_ios import pipeline_ios
-
 
 # load universal pipeline settings
 with open("config.json", "r") as config_file:

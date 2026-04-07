@@ -1,6 +1,10 @@
-from kfp.v2.dsl import component
+from kfp.dsl import component
 
-@component(packages_to_install=["google-cloud-bigquery==2.22.0", "pytz"])
+
+@component(
+    packages_to_install=["google-cloud-bigquery==3.40.1"],
+    base_image="python:3.14"
+)
 def cleanup_bigquery_structured_data_intermediate(structured_data_table: str, project_name: str):
     from google.cloud import bigquery
 
