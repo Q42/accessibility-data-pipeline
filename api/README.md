@@ -1,9 +1,9 @@
 # Accessibility pipeline API
 
-This api is used to parse accessibility settings submitted by the clients.
+This API is used to parse accessibility settings submitted by the clients.
 It returns the current version of the data collection so the client knows the most recent version.
-The request body contains an api key and the actual content of the settings.
-The api key is checked with the main key stored in the Google Cloud key vault.
+The request body contains an API key and the actual content of the settings.
+The API key is checked with the main key stored in the Google Cloud key vault.
 Afterwards the schema of the settings content is validated and stored in Firestore.
 
 # Using the API
