@@ -48,6 +48,8 @@ The fields of iOS and Android are as follows (subject to regular change):
 
 # Deploying a new version of the API
 
+- Make sure the `requirements.txt` is up-to-date with `uv export --frozen --no-dev -o requirements.txt`
+- Make sure the secrets from 1PW are in `secrets/` (`configuration.json` and relevant service account JSONs)
 - To deploy API, run: `gcloud app deploy --no-promote`
   - Once deploy is complete, enable traffic split; send a few percent of the traffic to the new version
   - Check if any errors occur; if new version is running fine, send all traffic to new version
