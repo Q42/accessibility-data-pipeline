@@ -3,6 +3,7 @@
 # Required imports
 import json
 import os
+import threading
 import time
 from flask import Flask, request, jsonify
 from google.cloud import firestore
@@ -59,6 +60,7 @@ def validate_schema(properties):
 
 _internal_db_client = None
 _external_db_client = None
+_db_client_lock = threading.Lock()
 
 
 def get_conn(db: str):
@@ -73,15 +75,19 @@ def get_conn(db: str):
     global _internal_db_client, _external_db_client
     if db == "external_db":
         if _external_db_client is None:
-            with open(f"secrets/{narwhal_configuration['service_account_file']}") as external_service_account_json:
-                service_account = json.load(external_service_account_json)
-            _external_db_client = firestore.Client.from_service_account_info(
-                service_account, project=narwhal_configuration["project_name"]
-            )
+            with _db_client_lock:
+                if _external_db_client is None:
+                    with open(f"secrets/{narwhal_configuration['service_account_file']}") as external_service_account_json:
+                        service_account = json.load(external_service_account_json)
+                    _external_db_client = firestore.Client.from_service_account_info(
+                        service_account, project=narwhal_configuration["project_name"]
+                    )
         return _external_db_client
     elif db == "internal_db":
         if _internal_db_client is None:
-            _internal_db_client = firestore.Client(project=meerkat_configuration["project_name"])
+            with _db_client_lock:
+                if _internal_db_client is None:
+                    _internal_db_client = firestore.Client(project=meerkat_configuration["project_name"])
         return _internal_db_client
 
 
