@@ -3,8 +3,9 @@
 # Required imports
 import json
 import os
+import threading
 import time
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, jsonify
 from google.cloud import firestore
 from google.cloud import secretmanager
 
@@ -57,32 +58,37 @@ def validate_schema(properties):
     return False
 
 
+_internal_db_client = None
+_external_db_client = None
+_db_client_lock = threading.Lock()
+
+
 def get_conn(db: str):
-    """Use this function to establish or get the already established
-    connection during a request. The connection is closed at the end
-    of the request. This avoids having a global connection by storing
-    the connection on the g object per request.
+    """Return a cached Firestore client for the requested database.
+
+    Firestore clients own a long-lived gRPC channel and are safe to reuse,
+    so each client is created once and cached at module scope instead of
+    per request. (The previous per-request "external_db" path also
+    instantiated a throwaway Client before calling from_service_account_info
+    on it, leaking a gRPC channel on every request.)
     """
-    if "db" not in g:
-        if db == "external_db":
-            with open(f"secrets/{narwhal_configuration['service_account_file']}") as external_service_account_json:
-                service_account = json.load(external_service_account_json)
-                g.db = firestore.Client(project=narwhal_configuration["project_name"])\
-                    .from_service_account_info(service_account)
-        elif db == "internal_db":
-            g.db = firestore.Client(project=meerkat_configuration["project_name"])
-    return g.db
-
-
-@app.teardown_request
-def close_conn(e):
-    """Automatically close the connection after the request if
-    it was opened.
-    """
-    conn = g.pop("db", None)
-
-    if conn is not None:
-        conn.close()
+    global _internal_db_client, _external_db_client
+    if db == "external_db":
+        if _external_db_client is None:
+            with _db_client_lock:
+                if _external_db_client is None:
+                    with open(f"secrets/{narwhal_configuration['service_account_file']}") as external_service_account_json:
+                        service_account = json.load(external_service_account_json)
+                    _external_db_client = firestore.Client.from_service_account_info(
+                        service_account, project=narwhal_configuration["project_name"]
+                    )
+        return _external_db_client
+    elif db == "internal_db":
+        if _internal_db_client is None:
+            with _db_client_lock:
+                if _internal_db_client is None:
+                    _internal_db_client = firestore.Client(project=meerkat_configuration["project_name"])
+        return _internal_db_client
 
 
 @app.route("/add/<collection_id>", methods=["POST"])
